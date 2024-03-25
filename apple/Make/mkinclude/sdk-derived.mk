@@ -24,3 +24,6 @@ UNIVERSAL_DYLIB_PATH:=$(UNIVERSAL_LIB_DIR)/lib$(LIBNAME).dylib
 
 # all libraries from all architectures
 SDK_ARCH_LIBS:=$(foreach arch,$(ARCHS_$(SDK)),$(SDK_BUILD_DIR)/$(arch)/lib/lib$(LIBNAME).a)
+
+# vars
+GLOBAL_CFLAGS:=$(GLOBAL_CFLAGS) -I$(OPENSSL_DIR)/$(SDK)/include -I$(OPENSSL_DIR)/$(SDK)/include

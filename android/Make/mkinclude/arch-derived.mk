@@ -19,8 +19,8 @@ the_build_platform:=android
 the_cc_platform_defines:=-DANDROID -D__ANDROID_API__=$(ANDROID_API) 
 
 # includes for msoc
-INCLUDES:=-I$(OPENSSL_DIR)/$(ARCH)/include -I$(MSOC_DIR)/include -I$(TOP_DIR)/cybozulib/include -I$(SIMDE_DIR)
-LIBS:=-L$(OPENSSL_DIR)/$(ARCH) -lcrypto
+INCLUDES:=-I$(OPENSSL_DIR)/openssl-$(ARCH)/include -I$(MSOC_DIR)/include -I$(TOP_DIR)/cybozulib/include -I$(SIMDE_DIR)
+LIBS:=-L$(OPENSSL_DIR)/openssl-$(ARCH)/lib -lcrypto
 
 # analyze the architecture
 ifeq ($(ARCH),armeabi-v7a)
@@ -49,7 +49,8 @@ the_arch_suffix:=
 the_cc_prefix:=i686
 the_tool_prefix:=$(the_cc_prefix)
 the_cc_arch:=$(the_cc_prefix)
-the_cc_opts_extra:=-mtune=intel -mssse3 -mfpmath=sse -m32
+#the_cc_opts_extra:=-mtune=intel -mssse3 -mfpmath=sse -m32
+the_cc_opts_extra:=-v -mssse3 -mfpmath=sse -m32
 endif
 ifeq ($(ARCH),x86_64)
 the_arch:=$(ARCH)
@@ -66,12 +67,21 @@ the_abi_triple:=$(the_arch)-$(the_os_type)-$(the_build_platform)
 
 # set compile tools
 AR:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-ar
+AS:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-as
 CC:=$(the_cc_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)$(ANDROID_API)-clang
 CXX:=$(the_cc_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)$(ANDROID_API)-clang++
-AS:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-as
 LD:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-ld
 RANLIB:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-ranlib
 STRIP:=$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)-strip
+
+$(info AS=$(shell which $(AS)))
+$(info AR=$(shell which $(AR)))
+$(info CC=$(shell which $(CC)))
+$(info CXX=$(shell which $(CXX)))
+$(info LD=$(shell which $(LD)))
+$(info RANLIB=$(shell which $(RANLIB)))
+$(info STRIP=$(shell which $(STRIP)))
+$(error foo)
 
 # location of libc++_shared.so - required for msoc
 TOOLCHAIN_SHARED_LIBS_DIR:=$(XAMARIN_ANDROID_NDK_SYSROOT_DIR)/usr/lib/$(the_tool_prefix)-$(the_os_type)-$(the_build_platform)$(the_arch_suffix)

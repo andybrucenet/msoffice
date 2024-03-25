@@ -10,7 +10,7 @@ LIBNAME=msoc
 #
 # xcodebuild -showsdks
 #   iphoneos / iphonesimulator / macosx
-ALL_SDKS?=iphonesimulator iphoneos
+ALL_SDKS:=iphonesimulator iphoneos macosx
 
 # support code
 include ./mkinclude/all-statics.mk
